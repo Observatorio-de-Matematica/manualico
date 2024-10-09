@@ -1,0 +1,296 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.04.0 ] */
+/* [wxMaxima: title   start ]
+Matrices y vectores
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: section start ]
+Vectores
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+v1 : [1,2,3,4]; 
+v2 : [5,6,7,8];
+
+print("Operaciones básicas")$ 
+print("suma v1 + v2= :" , v1 + v2)$ 
+print("producto escalar v1 . v2 = ", v1 . v2)$ 
+print("producto de un vector por una constante", 6 . v1)$
+
+v3 : [%i,2*%i,2/%i]; 
+v4 : [5,6,-3*%i];
+v3 . v4;
+
+load(eigen)$      /* proporciona producto escalar alternativo */
+innerproduct(v3,v4); 
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+El paquete "vect" contempla el producto vectorial de vectores.
+Debe ser cargado un única vez por sesión
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load(vect)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+[1,2,3]~[4,5,6]$    express(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+También puede hacerse en la forma clásica, interpretando i, j, k
+como los vectores unitarios canónicos del espacio euclídeo tridimensional
+y cuyos coeficientes (al desarrollar el determinante) 
+son las coordenadas del vector producto vectorial de los vectores 
+correspondientes a las filas segunda y tercera.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+matrix(
+ [i,j,k], 
+ [1,2,3], 
+ [4,5,6]
+);
+determinant(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Construir matrices
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+A continuación aparecen algunos ejemplos realizados "a mano",
+pero en el apartado Álgebra del menú de wxMaxima existen interfaces gráficos
+que pueden ser útiles para escribir matrices
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+matrix([1,2,%pi], [5,9,2]);
+ 
+a[i,j]:=i^2 + j^2$ 
+genmatrix(a,3,2);
+
+diag_matrix(1,2,3);
+
+ematrix(3,4,%pi,2,2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Construimos una matriz 5X3 usando dos listas aleatorias anidadas   
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+makelist( makelist(random(100),i,1,3),j,1,5); 
+apply( matrix, % );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Operaciones con matrices
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Generamos una matriz con fórmula y la llamamos MiMatr.
+
+Luego usamos los comandos para recuperar un elemento, una fila, una columna,
+añadir nuevas filas, nuevas columnas, transponer, hallar el rango, triangularizar...
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+a[i,j]:=i^2 + j^2$
+MiMatr : genmatrix(a,4,6);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+MiMatr[3,2];
+        /* recupera el elemento [3,2] */
+
+col(MiMatr,2);
+        /* recupera columnla a 2 */
+
+row(MiMatr,3);
+        /* recupera la fila 3 */
+
+submatrix(1,3,MiMatr,2);
+        /* elimina las filas 1 y 3 y la columna 2 */
+
+addrow(MiMatr,[1,1,2,6,3,1],[0,1,0,1,7,2]);
+        /* añade dos filas nuevas */
+
+addcol(MiMatr,[1,1,1,9],[0,0,0,0]);
+        /* añade dos nuevas columnas */
+
+transpose(MiMatr);
+        /* calcula la transpuesta */
+
+
+MiMatr;
+rank(MiMatr);
+        /* calcula el rango */
+
+print("Sencillo y fácil de recordar")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Más operaciones con matrices
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+kill(A,B)$
+A : matrix([1,2,3],[4,8,5],[9,5,4]);
+B : matrix([5,1,8],[1,7,2],[3,1,4]);
+print("suma y producto matricial")$
+'A + 'B = A+B;
+'A . 'B = A.B;
+print("la matriz inversa")$
+A^^(-1);
+print("el mismo resultado con otro comando")$
+invert(A);
+print("el mismo resultado con el valor del determinante 'fuera' ")$
+invert(A),detout; 
+print("Productos y cocientes término a término")$    
+'A * 'B = A*B;
+'A / 'B = A/B;
+print("multiplicar o dividir todos los elementos por una constante")$         
+7 . A;
+        /* multiplicar todos por 7  */
+
+B / 2;
+        /* dividir todos por 2   */;
+
+print("eliminar una fila y una columna: menor")$
+A;
+minor(A,2,3);
+    /* elimina la fila 2 columna 3 */;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Matrices y sistemas de ecuaciones
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Sistema compatible y determinado
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("Definimos las matrices")$ 
+A : matrix([2,1,3], [-4,2,-1], [5,1,2]); 
+X : transpose( matrix([x,y,z]) ); 
+B : transpose( matrix([1,2,3]) );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+determinant(A);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Como el determinante de A no es nulo, A tiene matriz inversa y para resolver
+A.X = B  basta multiplicar a izquierda por la inversa de A:  X = invert(A).B  
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+invert(A).B;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+A continuación abordamos el problema de un modo "análogo", 
+pero dejando que Maxima resuelva la ecuación usando solve
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("Una ecuación matricial da origen a un sistema de ecuaciones")$
+A.X=B;
+A.X-B; /* que puede ser escrito también así, obviando el =0, que Maxima asume */
+
+print("Tratamos de resolverlo")$
+solve(A.X-B,[x,y,z]);
+print("y fracasamos: matrices y listas son cosas diferentes para Maxima.")$
+
+print("Transformamos las matrices en listas y lo volvemos a intentar")$
+solve(list_matrix_entries(A.X-B), list_matrix_entries(X));
+   /* Lo que sigue ilustra como desagrupar listas y recuperar elementos */
+%[1];
+%[1];
+rhs(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+En el ejemplo precedente hemos visto como resolver una ecuación matricial usando solve
+            (el resultado, naturalmente, es el mismo) 
+y como recuperar, por ejemplo, el valor de la x  extrayendo "piezas" de una lista,
+algo que conviene saber manejar para poder reciclar en otros cálculos.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Sistema compatible, pero indeterminado
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: comment start ]
+Vamos ahora a analizar un problema formalmente análogo 
+pero con una matriz A diferente
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+A : matrix([2,1,3],[-4,2,-1],[-2,3,2]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+determinant(A);
+rank(A);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+El primer procedimiento que hemos usado en la seccion anterior no sirve ahora.
+Veamos el segundo.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(list_matrix_entries(A.X-B), list_matrix_entries(X));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+¿Qué significa la respuesta de Maxima?
+1) Dice que hay ecuaciones dependientes (¡claro el rango es 2, luego la tercera sobra!)
+   y que la ha eliminado la dependiente.
+2) Luego ha introducido un parámetro denotado como %r1, que coincide con z, 
+   para expresar las soluciones de x, y en términos de dicho parámetro. 
+   [wxMaxima: comment end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.04.0"$

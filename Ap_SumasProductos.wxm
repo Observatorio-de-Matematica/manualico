@@ -1,0 +1,91 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.04.0 ] */
+/* [wxMaxima: title   start ]
+Sumas y productos
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: section start ]
+Sumas
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load(simplify_sum);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("Una suma finita con un número concreto de sumandos 
+y con un número indeterminado de sumandos")$
+sum(1/k, k, 1, 100);
+sum(1/k, k, 1, 100),numer;
+sum(1/k, k, 1, n);
+sum(1/k, k, 1, n),simpsum;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Las sumas con un número concreto de sumandos las calcula sin problemas,
+pero las sumas finitas, para un número indeterminado de sumandos, 
+es una cuestión más difícil.
+
+En algunos casos, también es posible hacer sumas finitas con un número
+de sumandos indeterminado.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("Una suma simbólica que no sabe calcular, si está escrita así: ")$
+sum(k^2, k, 1, n);
+
+print("... pero escrita de forma diferente sí sabe sumarla para cualquier n: ")$
+sum(k^2, k, 1, n),simpsum;
+factor(%);
+
+print("De forma directa con  nusum: ",nusum(k^2, k, 1, n))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+lsum(1/n, n, [1,3,5,7,9]);
+ 
+pares : makelist(2*k,k,1,50)$ 
+lsum(1/n^2, n, pares);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("Una situación similar a la precedente")$
+sum(1/n^2, n, 1, inf); 
+sum(1/n^2, n, 1, inf),simpsum;
+simplify_sum(sum(1/n^2, n, 1, inf)); 
+
+print("simpsum  vs. simplify_sum ")$
+sum(x^n/n!, n, 0, inf),simpsum; 
+
+simplify_sum(sum(x^n/n!, n, 0, inf));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Productos
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+product(i^2, i, 1, 5);
+
+product (a[i], i, 1, 7);
+
+product (a(i), i, 1, 7);
+
+product (k, k, 1, n);
+
+product (k, k, 1, n),simpproduct;
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.04.0"$

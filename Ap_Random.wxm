@@ -1,0 +1,127 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.04.0 ] */
+/* [wxMaxima: title   start ]
+Sobre el comando random
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: section start ]
+El comando random genera números pseudoaleatorios
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Vamos a generar hasta 10 decimales menores que 100 con el comando
+random(100.0). Por economía de ejecución los ponemos todos en la misma celda
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Como se aprecia, cada vez produce un resultado diferente que es un decimal positivo
+estrictamente menor que 100. 
+Aparente la aleatoriedad está presente. Pero en realidad es determinista: 
+se trata sólo de pseudoaleatorios.
+
+Para entender mejor el significado de lo anterior, llegados a este punto,
+desde el menú Maxima, proceda,  sin borrar nada, a reiniciar Maxima y pase a
+ejecutar la celda de la sección siguiente. 
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: section start ]
+Que están predeterminados
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Si ya ha reiniciado Maxima vuelva a ejecutar el mismo código que antes
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Pues sí, son exactamente los mismos resultados: están predeterminados en la máquina.
+
+Son pseudoaleatorios generados a partir de una "semilla inicial",
+que puede ser cambiada. Véamoslo.
+
+Llegados a este punto, sin borrar nada, volvemos a reiniciar Maxima desde los menús
+antes de pasar a la sección siguiente.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: section start ]
+Generar semilla "aleatoria" inicial 
+utilizando el reloj de la máquina
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+make_random_state(true)$
+set_random_state(%);
+
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Volvemos a reiniciar Maxima desde los menús y ejecutamos de nuevo el mismo código.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+make_random_state(true)$
+set_random_state(%);
+
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+random(100.0);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.04.0"$

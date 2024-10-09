@@ -1,0 +1,214 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.04.0 ] */
+/* [wxMaxima: title   start ]
+Sistema de ecuaciones lineales con un parámetro
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: caption start ]
+ Analizar la existencia de soluciones y, en su caso, calcularlas
+   [wxMaxima: caption end   ] */
+/* [wxMaxima: image   start ]
+png
+iVBORw0KGgoAAAANSUhEUgAAALAAAABcCAIAAABBU6jwAAAAA3NCSVQICAjb4U/gAAAQpklEQVR4nO2da1QTRx/GJwkIEjGKl6OIop4q2Cq1CMQe0VrvVlqvrbSI1aJtP2At1apoK8dTWtQDB7CKFK9cjGAQFIMIYiDQCAGRCHITRCga0AQTwiWEJLvvhznvnkQgRLIB1Pl92tnM/GcXnszOzD4zoeA4DhCI/0Md7AtADC2QIBA6IEEgdECCQOiABIHQAQkCoQMSBEIHJAiEDkgQCB2QIBA6IEEgdECCQOiABIHQAQkCoQMSBEIHJAiEDqYSBI7jERERdnZ2Go3GRFUgTIGZKYLKZLJt27alpaUlJyfTaDRTVIEwERTSLXQajWbNmjXZ2dnXr19fuXIlKTFbWlosLS0tLCxIifaugeO4RCIZOXKkIX9A8luII0eOpKen+/v7k6KGgoKCc+fO2dralpaWNjc3h4WFffjhh8aHfXdgsVj19fXjxo3Lzs5ubW09deqUnZ2dvgI4qYhEIjMzs9GjR0ulUuOjPXv2zN/fH8MwmPT19bWxsXn69KmRYaurq/Pz842+ujeArKysL774QiaT4TiOYZirqyuTydRfhORO5ZkzZ9Rq9YYNG0aNGmV8tMuXL5eUlLx8+RImd+/e/fLly5iYGCPDVlZWFhYWGn11bwCVlZUpKSnwZikUysyZMwsKClQqlZ4iJAvi+vXrAIAlS5aQEq2rqys1NVUkEsHkxIkTAQCPHz/WzqM9iiF9RAMbJ3Jj9lgLPIDfURIj+/j4FBcXE/+O8vJyZ2dnc3NzPUVIFgT8b7333nukRNu3b9/Tp0/nzJkDkxUVFQCA2bNnw6RIJDp+/HhUVNSWLVsaGhoCAwNDQ0M3b95M1t+Uy+VGRER8+eWXYrEYnikrK9uyZQspwSE1NTVz584dM2bMrVu3AAAhISFSqZTE+Obm5nPnzqVSqQCAO3fu1NbWnjp1Sn8RMjuVSqWypaUFAGBtbU1KQBqNNmnSJCIZFRU1efLkHTt2AABwHI+Ojt6/fz+VShUKhcuWLRMKhceOHePxeBqNxszM2PuSy+WZmZl//fXX2bNnuVzu5s2bAQDx8fESicTIyNqcOHHi2LFjGo2mqKiIzWZ7eXnZ2Nh0zxYREZGRkaEnDoVC+fPPP99///0eP83MzLx169a1a9fu3Lkzb968Pq6JxC6MQqGAMSsqKkgMC8nIyJgyZUpVVRVM5ufnl5eXw2N3d/cffvgBx/G2tjaxWNxnqBs3bvz999/683A4nLq6OpFIRKFQ6urqiIqOHj3a/3voBtH15nA4V69e7S2bWq1W9AXR9e4NoVBoa2sbExOjPxuZ8xCdnZ3Dhw+HgnB0dCQrLABAJBJt3rw5NjZ26tSpr3zU1dXFYDDi4uI2btzYW3EfH5/6+noiKRaLOzs7J0+eTJyh0+mJiYndH65hYWFxcXH37t0DACgUilGjRuXk5DCZzFeyhYaGpqam9lY7lUoNCwvr7esLAGCz2TQabcOGDb1lIIsDBw4EBweXlJTouRiTzFSSS0tLi5+fX3x8PHx8NDc3jxkzhvi0uLi4s7Nz0aJFeiKcO3dOOwm//b6+vn1WnZiYuGnTJnicl5c3bNiwHptcPz8/Pz8/Q+6lO9HR0ba2tsuXL9eTRyqVNjc368lAoVCmTJnSXdDp6ekqlcrDwwMmZ8+erdFoUlJS3mBBKJXK33//PTw8fMKECQAAlUp14sSJI0eOwPaNSqXevXt3xowZ48aNAwC0trYWFRUtXryYlKoxDBMKhYGBgTDJ4/EWLlxofO9Em6ioqFmzZi1cuBAAoFKpbt68uXbt2u7Zbt68mZeXpz/U7t27Z8yY8cpJb29vlUrV3NwM+5Xt7e0AAAaDoSfOkBYEhmE+Pj4ODg7Xrl0DACgUikePHrm6ugIAVq5c6ejoGB4ezmKxHBwcYP5Lly55eXmRew2jR4+GVSckJPj4+JAYOTY2NicnZ8SIEU+ePOno6AgODj506FCPOb28vPp3X66urtu3b4dqAAAIBAIGg/H555/rKTKkBREZGXnp0qVXTm7duhUAoFKppk6dGhoaevLkyT/++CMxMbGuro7JZJI1wAEAUKnUgwcPRkZGrl27Njc3t6qqiqy2BwBQWloqFotjYmLOnTs3ffp0Kyur06dPkzVcJzhz5kxQUBCGYXPmzOHz+VlZWVevXh24qWtilPHw4UMSw/YIhmG1tbXt7e0wWVdXp1KpDCxryCgDVoFhmEgkqq2tZbPZ06ZNU6vV/b9iXeRyOTEuePr0aUdHB1mRXwHDsMLCQhaLlZ2dTfy59ECmIDo6OqAgCgoKSAxLOg0NDX1KFsMwJpMZFBSE47hGo3FxcYmKihqQqxtkyHxkUCgUeEBiu20K7Ozs+mg2AVCpVBiGeXp64jgeEBCwcOFCOCH21vNmzEMMCrdv366urm5vb583bx5Zb2eGPkgQCB2QyRahAxIEQgckCIQOSBAIHcgUBDExpX+2HDHA4DguFouVSqUhmcmch3jx4gUAwMzMbPz48SSGRRjDYLquY2NjAQBLly4lMaYhDDUXdVpaWnNz82BfBY4Puuuay+UCADw9PUmMaQhDzUWdmZlJGIMHl8F0XYtEIhaLNW3aNCMFYWoXNXGM47hare4tSeTH3zHXNWl9iKNHjyqVygsXLowYMaJ/EUQiUVxcnLW1NZ/PDwoKio6OtrS0LCwsjI+PJ96SGENaWlpjY2NKSkpMTAyLxVKr1TKZ7PHjx+fPn4+OjpZIJC0tLVVVVZcvX4brUblcbnl5eXZ29unTp6EBp6ysLCgoKC4uzviLgdTU1GzatKm+vv7y5curVq0KCQn57rvvevTZ9g/ouobH0HWdnp6uvwg5gkhLS4O+hE8++aR/EXATu6gBAMXFxQcPHgwMDPTy8rpw4cLYsWNxHLexsbGysvL394ddrQkTJvD5/EWLFiHXdf/hcDgMBiM8PNyYIKZ2UTc0NGRkZMBVD7dv34Yn5XI5ACA+Ph4m29raqFRqcXExbpzres+ePaWlpX1mw99W17Wrq+vy5cv/+usvI+NATOqiTk1N3bp1q1gshq6y7Ozs1atXy2QyuCyax+OtWrVKLpcTBQ1xXUskki1btmj3Px49emRra6v96HR1dQ0KCurtdt4213VsbOzKlSubmpr++ecf/R0WQzCpizorK2vx4sWExzAnJ2f+/PnEIvnk5OQVK1Zo34IhruuxY8fCdVcEe/fu3bZtG7HCTD9voeva0dExOTmZyWQqFAoWi9W/DiBsr0zqogYAZGVlQUsmhMfjEZ0eDMMSEhJCQ0NxHE9NTfXw8Hg3XdekTUwFBAQAAKKjo/tXfPny5bt27cIwzMXFxcPDA548ffq0XC7vs6yBHkmpVEqhUIqKimBSoVBYWFhwuVyYfPz4MYVCkUqlXC43NzcXx3GNRkOn04VCIY7jHR0dDg4Ox48fN+ReDOxDxMTEeHl5Xbp0qba29uHDh9u2bauurjYkvuF89tlnbDabSG7fvp3BYDQ0NOgpQto8xIEDBxgMxq5duxobG/tRXNtFjeN4YmJicHDwBx98QKIb78GDB+PHjyf2GykvL7eysvr4449h0t7enslk8vn8qqoqd3d3oOW6vnXrVmBgoIlc1+3t7dOnT3dzc/v0009N4brm8XhXrlypqKg4e/bsQLuu4bKFY8eO9aPsALiou7q6mpqaiKRarX7x4oV2BrVaLRKJtC+pf65rQ1qId8J1DTeHmDt3LokxDcEQF/XrYozr+u7du4Y86YYmZHoqS0tLnZycKBRKZ2fnsGHDyAo7KHR1dbm7u1+5csXe3v7w4cPt7e0hISGkTJgOccgUhFQqhRNtdXV19vb2ZIUdLJDr2liQ6/otAFnoEDogQSB0QIJA6IAEgdABCQKhw+AIoqWlpbW1dVCqfpeBG33qh8x3dzQabfjw4RiG6XklyOfzeTyejY1NbW0tn88/evQofNeHMDUNDQ0LFiwg9onuFRJnPTs7O2FMYjfJV5DJZEwms6ysDCZ//fVXOp1uiCdKP0PNhj8EwTBs48aNNBqtz5xkPjLw/89xaZubtWlsbBQIBCwWCyZnzpzZ3t5eUlJiZL1DzYY/BElISHBxcTEk54BuOubo6PjgwQPCx1FeXm5paUlsZQ3RaDTEj/BoH5MFhmGEY4p0tINrNBoKhdJbssdS8BtF+huTpqYmiURioINroHehc3JyggfPnj2Lj48PDQ2F5ihgehs+dLvX1dV5enpCZ0NnZ+f69etZLBbce9BIzp8/L5FImpqaDh06dPHiRWtr64KCAhcXF29v78jISHNzc4FA4OzsvGfPHqKIqW34AAAcxyMjIw8ePKjft00wCNsSVlZWXrlyJTY2Nigo6Ntvv4UncdPb8ENCQsLCwn755ZeEhAQoCD6fn5ub2++FJNo8f/4cx3FPT097e3s6nR4QEGBmZubm5ubu7i6Xy3fv3m1hYVFZWenk5PTTTz8R5scBsOEnJSV5eHi8xstnEnsur7X5uUQicXNz8/X1ha4TU9vwRSJRUlIShmGzZs0ifH6//fbbqlWr+oxvCCkpKWKx+Nq1ayNHjiSumcPhDBs2jHDxp6WljRo1Stsvb2obvlgsDg4Ohsc3btwwpFM5aBuXjhkz5siRI6tXr3Zyctq5cyfhbe/q6rp3797PP/8MAKDT6XQ6vXvZHm34cLdbSHcb/sSJE9evXy8UCqurqwkXMo/HW7NmTff4/djMHG4P+++//y5ZsmTs2LHwZGFh4YIFCwgngEAgcHFx0X78wd8d6tOGT6PR+teXOnny5P79+1+ryIAKoqKiIicnZ8eOHfD2YDfn6tWrO3fuJPKYejPzpUuXwmZZoVAIBILg4ODu2fq9mXlWVhbxEAQA5OTkaC9lS05O1v4UYjob/v3797lcLrHU7MmTJxqNxtfXd9KkSf7+/r2FIlMQ5ubm5ubmKpWqra2txwwBAQFsNpvJZMIFh9qucNhemdqGf//+/fnz58Pj/Px8CwsLZ2dnsoLLZLLi4mJCrEqlMi8v7/DhwzBZUVFRUlLy1VdfPX/+vL6+3s3NDZjYhu/s7JyTk0MkIyMj09PTT548qT8OyTOV9vb2NTU1//33X4+j3o8++mjSpEnEQEMgEAAAvL29wYBvZg4AuHjxIrnrLHJzc62trYnRXX5+PjRmwmReXh68/ZCQkB9//BEMyObn2iiVSgzDVCrVgP7mFtRBWVlZj5/u3bt3+PDhUVFRQqEwIyMjMDAwLCwMPtEHwIYPAPDz80tNTc3MzAwPD+dwOCS2PQCA+/fvr1ixgnjYFxUVLV26FFrIAADu7u7jx49ns9kODg50On1gbPiQxsbG77//PiIiwtLSct26dSdOnNCXu89u52uRlZUFAHBwcNCz9rSmpobNZnM4HDhUgwyADR/WIpPJKioqnj17RqPRampqDKzCEKRSqbbZWi6Xt7W1aWdobW0lhhUDZsN/XUgWBIZh8OmYkZFBbmQ9GGjD37dvHzHI3LNnzzfffGPi63ojIVkQOI7X1taOHj3azs5OIpGQHtwY1q1bBxfucTicZcuWvfL1RUDI/zF42Dxs2LDB3d09KSnJysqK9Pj9o7q6msPhUKlUBoPh7e1N+luStwOTCAIAUFVV9fXXX9NoNIFAYLqXSQjSMZUgAABKpTIpKcnT0/NdWPD01mBCQSDeRFBjjtABCQKhAxIEQgckCIQOSBAIHZAgEDogQSB0QIJA6PA/DHSTI4ozlmcAAAAASUVORK5CYII=
+   [wxMaxima: image   end   ] */
+
+/* [wxMaxima: comment start ]
+Podemos abordar el problema de dos formas:
+1. Como un sistema de ecuaciones y el comando   linsolve
+2. Como un operador lineal, representable en términos matriciales como A.X=B 
+   donde A es la matriz de coeficientes y B la de los términos independientes.
+
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: section start ]
+Primera forma de abordarlo
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("Definimos las ecuaciones y le ponemos un nombre")$
+EC:[2*x+y-z=3, x+m*y+z=3,3*x+y-m*z=4]; 
+
+print("Resolvemos el sistema lineal con el comando estándar")$
+linsolve(EC,[x,y,z]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Reflexionando un instante, nos damos cuenta que Maxima ha operado formalmente:
+y obtiene una solución única para cada valor del parámetro m,
+¿pero qué pasa si m=0? 
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: section start ]
+Otra forma de abordarlo
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+La otra forma es como un operador lineal definido por la "matriz de coeficientes" A
+del sistema  EC que podríamos escribir. Pero Maxima puede recuperardo desde  EC
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("Le decimos a Maxima que recupere la matriz usando EC con variables [x,y,z]")$
+A: coefmatrix( EC, [x,y,z]);
+
+print("Creamos las matrices X y B")$
+X: transpose(matrix([x,y,z]));
+B: transpose(matrix([3,3,4]));
+
+print("Resolver A.X=B, o bien A.X-B=0, es lo mismo que antes")$
+A.X=B;
+A.X-B;
+solve(A.X-B,[x,y,z]); 
+
+print("Así no lo resuelve. Es necesario transformarlo en listas
+       y llegamos a lo mismo, obviamente")$
+solve( list_matrix_entries(A.X-B), [x,y,z]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Sacando partido a las técnicas de aplicaciones lineales
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: comment start ]
+Resolver A.X=B  requiere que B esté en la imagen de la aplicación lineal que A
+define. Abordemos el estudio del rango de A y, si es posible,  multiplicamos
+por A^{-1} a ambos lados.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rank(A);
+determinant(A);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Claramente Maxima, opera formalmente, porque para m=0 el rango no es 3.
+¿Hay más valores en los que suceda?
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(determinant(A), m);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+La respuesta nos garantiza que salvo para esos valores, que hay que analizar
+por separado, la la solución es única para cualquier m y es la obtenida antes.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("Evaluamos la dimensión del rango para esos valores de m")$
+ev( rank(A), m=0);
+ev( rank(A), m=2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Con esa respuesta no podemos garantizar que B esté en la imagen de A.
+Triangularizamos la matriz A ampliada con la columna B
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+addcol(A,B);
+T: triangularize(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Para m=2 la última fila es de ceros y podemos prescindir de ella
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ev( T, m=2);
+EC1:  %.transpose(matrix([x,y,z,-1]));
+
+print("Se trata de un sistema compatible, pero indeterminado")$
+print("podemos considerar a z como parámetro y calcular x,y")$
+
+solve( list_matrix_entries(EC1), [x,y]);  /* matriz tranformada en lista */;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Finalmente analizamos el caso m=0
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+M0:  ev( T, m=0);
+print("A la vista de la matriz, es incompatible pues 0*x+0*y+0*z =2 es imposible")$
+
+    /* ÚNICAMENTE POR PRACTICAR COMANDOS */ 
+submatrix(M0,4);
+%.X=submatrix(M0,1,2,3);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Completamos el estudio de la apliación lineal para m=0
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("m=0",ev(nullspace(A),m=0))$ 
+print("m=2",ev(nullspace(A),m=2))$ 
+print("proporcionan bases de ker(A) para m=0 y m=2")$ 
+print("y las dimensiones de Im(A) son, respectivamente:")$ 
+ev(rank(A),m=0); ev(rank(A),m=2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Para hallar una base del espacio Im(A), basta con hallar la imagen por A 
+de los vectores de una base del espacio complemento ortogonal de ker(A).
+
+En el caso de m=0 se trata de encontrar una base en el espacio de los vectores 
+[x,y,z] tales que [-1,3,1].[x,y,z]=[0,0,0], 
+lo cual, obviamente puede ser abordado como 
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+nullspace(matrix([-1,3,1]));
+
+print("Hallamos ahora las imágenes por A de dicha base")$
+A.matrix([-3],[-1],[0]);
+A.matrix([0],[1],[-3]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Resumen de la solución del sistema
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+A) Para m distinto de 0 y 2 el sistema es compatible y determinado 
+   la solución es:   x=(3*m-1)/(2*m),  y=3/(2*m),   z=1/(2*m)
+
+B) Para m=0, lo anterior no tiene sentido; de hecho hemos comprobado que
+   se trata de un sistema incompatible
+
+C) Para m=2, se tendría, aplicando la solución "general" 
+   x=(3*m-1)/(2*m)=5/4,  y=3/(2*m)=3/4,   z=1/(2*m)=1/4
+   que cumple x=z+1  y=1-z, y ciertamente es solución... pero hay más 
+   [wxMaxima: comment end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.04.0"$

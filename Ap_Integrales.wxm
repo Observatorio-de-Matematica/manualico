@@ -1,0 +1,337 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.04.0 ] */
+/* [wxMaxima: title   start ]
+Integrales
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: section start ]
+Primitivas e integrales
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Ejemplos de primitivas e integrales.
+El apóstrofo  '  le indica a Maxima que se limite a escribir la fórmula,
+el valor se obtiene al eliminar el apóstrofo
+
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+'integrate( x/(1+x^2), x ) = integrate( x/(1+x^2), x );
+'integrate( 1/(1+x^2), x, 0, 1 ) = integrate( 1/(1+x^2), x, 0, 1 ); 
+ integrate( 1/(1+x^2), x, 0, inf ); 
+ integrate( 1/(1+x^3), x );
+'integrate( sin(t*x), x ) = integrate( sin(t*x), x );
+
+print("La integral de Gauss")$
+'integrate( exp(-u^2), u, minf, inf ) = integrate( exp(-u^2), u, minf, inf ); 
+
+print("Primitiva de la integral de Gauss mediante la función de error")$
+'integrate( exp(-x^2), x) = integrate( exp(-x^2), x); 
+
+print("Maxima sabe derivarla")$
+'diff(erf(x),x)= diff(erf(x),x);
+print("La función de distribución gaussiana")$
+'integrate(exp(-u^2), u, minf, x) = integrate(exp(-u^2), u, minf, x);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f(x):= integrate(exp(-u^2), u, minf, x);
+
+wxdraw2d( proportional_axes=xy,
+          title="Función de distribución gaussiana", 
+explicit(f(x), x, -2,2))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+El caso de integral de Gauss es muy relevante por su importancia,
+pero Maxima puede calcular primitivas de funciones que no pueden expresarse
+utilizando únicamente las funciones usuales (llamadas elementales).
+
+NUEVO EJEMPLO 
+sin(x)/x  es una función continua salvo en el origen, que no está definida.
+Si existiera el límite en dicho punto podríamos darle en 0 el valor del
+límite obteniendo una función continua que, por tanto, tiene primitiva.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+   print("El límite existe")$
+limit (sin(x)/x,x,0);
+   print("Calculamos la primitiva")$
+integrate( sin(x)/x, x);
+%,numer;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Ciertamente, no es una función "habitual", pero Maxima la conoce y la gestiona.
+Por ejemplo, sabe calcular su derivada, que si le pedimos a Maxima que 
+la transforme, mediante el comando trigrat, resulta ser sin(x)/x
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+integrate( sin(x)/x, x );    
+
+diff( %, x );
+    
+trigrat(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Primitivas racionales mediante partición en fracciones simples
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: comment start ]
+Maxima conoce la técnica de calcular primitivas de funciones racionales mediante
+la disión en fracciones simples. De hecho tiene implementado el comando  partfrac
+que realiza esa tarea
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f(x):= (x^2-7*x+5)/(2*x^5-8*x^4-21*x^3-16*x^2-11*x-6);
+    print("Partir en fracciones simples es lo que se haría de forma manual")$
+F : partfrac(f(x),x);
+    print("para luego integrar término a término")$
+integrate(F,x);
+
+    print("Maxima es capaz de hacer por sí mismo la primitiva")$
+integrate(f(x),x);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Cambio de variable
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+UN EJEMPLO SENCILLO 
+para ilustrar el procedimiento de cambio de variable
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+kill(all);
+    print("Queremos calcular la siguiente primitiva")$
+'integrate(sqrt(1-2*x^2),x);
+    print("A una persona con experiencia se le ocurre el cambio de variable a realizar
+    para transformar la primitiva en otra más sencilla")$
+changevar('integrate(sqrt(1-2*x^2),x), sqrt(2)*x=sin(t),t,x);
+rootscontract(%);
+%,nouns;
+subst(t=asin(sqrt(2)*x),%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Hemos conseguido hacer la primitiva mediante el cambio de variable.
+Pero... Maxima es capaz de hacerla sin que le indiquemos el camino.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+'integrate(sqrt(1-2*x^2),x) = integrate(sqrt(1-2*x^2),x);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+OTRO EJEMPLO MENOS SENCILLO
+El ejemplo precedente y los anteriores pone de manifiesto que Maxima tiene buenas capacidades
+para el cálculo de primitivas. Pero es una máquina... y a veces no se le "ocurre"
+utilizar el camino que usaría una persona con experiencia.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f(x):=  x*%e^asin (x)/sqrt(1-x^2);
+integrate( f(x), x );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Una persona experimentada en calcular primitivas diría: 
+"es muy fácil haciendo el cambio de variable y=asin(x)
+el integrando se transforma en sin(y) e^y, y esa es fácil, utilizando integración por partes"
+
+Le vamos ha decir a Maxima que haga ese cambio de variable
+y lo intente de nuevo
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+changevar(integrate( f(x), x ), y-asin(x),y, x );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+De nuevo el humano se queda perplejo 
+"¿cómo no ha simplificado? juntando las raíces y eliminando cos(y) en numerador y denominador"
+
+Quizá Maxima es muy exigente y da por supuesto menos cosas que el humano, 
+a menos que se indique de forma explícita. Vamos a darle información complementaria.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+changevar(integrate( f(x), x ), y-asin(x),y, x );
+rootscontract(%); /* para convertir el producto de las raíces en la raíz del producto */;
+I : trigsimp(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Si damos por supuesto que cos(y)>0 se puede simplificar y 
+también asumir que 0<y<%pi/2 simplifica las cosas.
+
+Lo olvidamos todo, y empezamos de nuevo recorriendo ese camino,
+pero explícitando cosas que posiblemente el humano está dando por supuesto
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("Empezamos de nuevo")$
+kill(all);
+f(x):=  x*%e^asin (x)/sqrt(1-x^2);
+changevar(integrate( f(x), x ), y-asin(x),y, x );
+rootscontract(%); 
+I0 : trigsimp(%);
+
+print("Para poder simplificar asumimos que cos(y)>0")$
+assume( cos(y)>0);
+fullratsimp(I0);
+
+print("y más cosas")$
+assume( 0<y, y<%pi/2);
+I1 : fullratsimp(I0);
+
+print("Ahora ya se ha transformado la primitiva en algo sencillo para Maxima")$
+
+I1,nouns;             /* Ejecutamos la integral */
+subst(y=asin(x),%);   /* Deshacemos el cambio   */;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Tras evaluar la integral "sencilla" y deshacer el cambio de variable 
+encontramos la primitiva buscada.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: section start ]
+El algoritmo de Risch
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Es un algoritmo diferente a integrate pero con su misma sintaxis.
+El ejemplo siguiente muestra que puede calcular algunas primitivas
+que integrate no consigue evaluar
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+integrate(sqrt(9*x^4+4*x^2),x);
+risch(sqrt(9*x^4+4*x^2),x);
+diff(%,x);
+
+print("Una manera diferente de proceder")$
+integrate(sqrt(9*x^4+4*x^2),x),risch;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Hemos comprobado que el valor proporcionado por risch es efectivamente una primitiva.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+    print("Vamos a hacer la primitiva anterior sin usar risch")$
+kill(all)$
+    print("Primero reescribimos la raíz con ayuda de radcan")$
+f:radcan(sqrt(9*x^4+4*x^2)); 
+    print("y ahora calculamos la primitiva")$
+
+integrate(f,x);
+
+assume(x>0);
+integrate(sqrt(9*x^4+4*x^2),x);
+    /* olvidamos ahora la suposición y lo intentamos de nuevo */
+forget(x>0);
+assume(x<0);
+integrate(sqrt(9*x^4+4*x^2),x);
+    print("Reflexione sobre los resultados")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Maxima puede expresar el valor de una primitiva haciendo uso de funciones no elementales:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+integrate(x^2*exp(-x^2),x);
+    
+assume(a>-1)$
+assume(b>-1)$
+integrate(x^a*(1-x)^b,x,0,1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Integración numérica
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+En muchas ocasiones no es posible encontrar una primitiva, 
+para, aplicando la regla de Barrow, obtener el valor de una integral.
+
+Maxima dispone de dos comandos para calcular integrales de forma numérica
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load(draw)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d( filled_func=true,
+    explicit(sin(exp(x^2)),x,0,1) );
+
+integrate(sin(exp(x^2)),x,0,1);
+    
+romberg(sin(exp(x^2)),x,0,1);
+quad_qags(sin(exp(x^2)),x,0,1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+La función sin(x)/x puede prolongarse en el origen de forma continua
+y por tanto la integral en cualquier intervalo existe
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d(sin(x)/x, [x,-1,1])$
+
+romberg(sin(x)/x,x,0,1);
+print("El comando romberg tiene problemas en origen
+    pero quad_qags no los tiene")$
+quad_qags(sin(x)/x,x,0,1);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.04.0"$

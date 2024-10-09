@@ -1,0 +1,156 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.04.0 ] */
+/* [wxMaxima: title   start ]
+Ejemplos de: desarrollar, simplificar, evaluar, sustituir... 
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: section start ]
+Evaluar y sustituir
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f(x):=cos(x)$   ev(f(x),x=0);
+x^2 - %pi/2+ev(atan(x),x=1);
+ev(sin(1),numer);
+x**3-2*x**2-747-sqrt(y),x=54,y=2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+EC : sin(x)+cos(y)+(w+1)**2+'diff(sin(w),w);
+        /*A la expresión le asignamos el nombre EC */
+ev(EC,diff);
+        /* Ejecutamos el cálculo la derivada indicada en EC.*/
+ev(EC,expand);
+        /* Desarrollamos la potencia indicada en EC */
+ev(EC,expand,diff);
+        /* Las dos evaluaciones anteriores a la vez */
+ev(EC,expand,diff,x=2,y=1);
+        /* Y ahora cuatro evaluaciones al mismo tiempo */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+subst(v,x+y+z,2*(x+y+z)^(a+b));
+
+subst(x+y+z=v,2*(x+y+z)^(a+b));
+        /* Esta sintaxis me resulta más fácil de recordar */
+subst([x+y+z=v, a+b=w],2*(x+y+z)^(a+b));
+        /* De este modo hacemos varias sustituciones simultáneas 
+        usando una lista para las mismas */
+
+subst(x=0,diff(sin(x),x,3));
+
+at(2*(x+y+z)^w, x+y+z=v);
+at(2*(x+y+z)^w,[x+y+z=v, w=a+b]);
+    
+kill(f)$ 
+at('integrate(f(x),x,a,b),[a=0,b=1]);
+        /* Como se aprecia, la sintaxis de at es diferente, 
+        pero la funcionalidad es la misma que la de subst */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Factorizar y simplificar expresiones racionales
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+expand( (x-6)^5*(x+1)^3*(x^2+1) );
+factor( % );
+factor( x^4-1 );
+factor( 2^63-1 );
+
+fullratsimp( (x^(A/2)+1)^2*(x^(A/2)-1)^2/(x^A-1) );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Ayudas para logarítmicas y trigonométricas
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+2*(A*log(X) - 3*B*log(Y)); 
+logcontract(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Obsérvese que únicamente los enteros 2 y 3 han sido convertidos en potencias, 
+mientras que A y B no lo han sido. Esa es la forma de operar por defecto. 
+Pero podemos conseguir que A y B también se conviertan en potencias 
+declarándolos como enteros (localmente en este caso gracias al comando block)
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+block( 
+    declare(A,integer), declare(B,integer), 
+    logcontract(2*(A*log(X) - 3*B*log(Y))) 
+     );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+kill(all)$   
+log(%e^2/y);   
+radcan(log(%e^2/y));
+
+log(x^a/y^b);   
+radcan(%);
+    
+cos(x+y);
+radcan(%);
+    
+cos(x)*cos(y)-sin(x)*sin(y);
+radcan(%);
+
+log(1+2*a^x+a^(2*x)) / log(1+a^x);
+radcan(%);
+    
+log(1+2*a^x+a^(2*x)) / log(1+a^x);       
+fullratsimp(%);
+    
+diff(sqrt(cos(x)), x, 2);   
+radcan(%);
+    
+diff(sqrt(cos(x)), x, 2);   
+fullratsimp(%);
+    
+(x^(A/2)+1)^2*(x^(A/2)-1)^2/(x^A-1);   
+radcan(%);
+        /* Observe que comportamiento tan curioso, 
+        comparando con el precedente. */
+    
+(x^(a/2)+1)^2*(x^(a/2)-1)^2/(x^a-1);   
+radcan(%);
+    
+(x^(A/2)+1)^2*(x^(A/2)-1)^2/(x^A-1);   
+fullratsimp(%);
+    
+radcan((1+x+x^2)^3);
+
+radcan(1+2*x+x^2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+A veces el comportamiento es más previsible
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+(1-cos(x))*(1+cos(x)); 
+expand(%); 
+trigsimp(%); 
+trigreduce(%,x);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.04.0"$

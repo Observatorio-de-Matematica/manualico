@@ -1,0 +1,215 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.04.0 ] */
+/* [wxMaxima: title   start ]
+Desarrollos de Taylor y series de potencias
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: section start ]
+Desarrollos de Taylor limitados en una variable
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Comandos principales
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: comment start ]
+Los comandos principales ejemplificados
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+powerdisp: true$  /* para que ordene las potencias de menor a mayor */          
+          taylor( (log(1+x))^2, x, 0, 4 );
+trunc(    taylor( (log(1+x))^2, x, 0, 4 ));
+taytorat( taylor( (log(1+x))^2, x, 0, 4 ));
+expand(   taylor( (log(1+x))^2, x, 0, 4 ));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Importante para no cometer errores
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: comment start ]
+Viendo los resultados del código anterior tras su ejecución
+los dos primeros parecen ser equivalentes, pero no es así.
+Observe que, cuando menos, la apariencia de las etiquetas en los "output" es diferente.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+powerdisp: true$
+f(x):= sin(x)$ g(x):=tan(x)$
+
+Tf : taylor(f(x),x,0,5);
+Tg : taylor(g(x),x,0,5);
+taylor(g(x)-f(x),x,0,5);
+Tg-Tf;
+print("Hasta ahora el comportamiento es el que cabría esperar.
+    Pero...")$
+
+
+print("Las asignaciones siguientes miden el error al reemplazar f
+por su polinomio de Taylor,
+la diferencia entre ellas está en la forma de escribir el polinomio.")$
+
+Dif1 : f(x)-trunc(taylor(f(x),x,0,5));    
+
+Dif2 : f(x)-      taylor(f(x),x,0,5) ;    
+
+Dif3: f(x)-expand(taylor(f(x),x,0,5));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+El resultado proporcionado por Dif1 (o Dif3)  es correcto y se muestra
+en la gráfica siguiente. f y Tf son "iguales" en [-1,1], pero no son
+siempre iguales como afirma Dif2. 
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    key="f",
+explicit(f(x), x,-%pi,%pi),
+    key="Tf",
+    color=green,
+explicit(Tf, x,-%pi,%pi),
+    color=red,
+    key="Dif1",
+explicit(Dif1, x,-%pi,%pi)
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("Otra ilustración")$
+taylor(f(x),x,0,9)-taylor(f(x),x,0,3);
+trunc(taylor(f(x),x,0,9))-trunc(taylor(f(x),x,0,3));
+    /* Y si le gustan los puntos suspensivos finales... */
+trunc(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+COROLARIO. No asuma riesgos, utilice    trunc  
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Fórmula de Taylor con resto de Lagrange
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: comment start ]
+Creamos un comando nuevo que realiza el desarrollo de Taylor con resto de Lagrange
+para cada función f(x)
+El uso es FormulaTaylor(f(x),Punto,Grado)
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+FormulaTaylor(f,z,n):=
+block([w,PoliTay,R], 
+      PoliTay: subst(x=z,f)+sum( subst(x=z, diff(f,x,i)/i!)*(x-z)^i,i,1,n), 
+      R      : subst(x=c, diff(f,x,n+1))*(x-z)^(n+1) /(n+1)!, 
+      PoliTay+R);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+taylor(sin(x),x,0,5);
+FormulaTaylor(sin(x),0,5);
+
+taylor(sin(x),x,2*%pi,7);
+FormulaTaylor(sin(x),2*%pi,7);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Desarrollos de Taylor en varias variables
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+taylor(sin(x+y),[x,y],0,5);
+trunc(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+taylor(sin(x+y),[x,y],[0,%pi/2],[5,5]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+taylor(1/sin(x+y),[x,y],0,3);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Series de potencias
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+log(1+x) = powerseries( log(1+x), x, 0 );
+
+sin(x)*cos(x) = powerseries( sin(x)*cos(x), x, 0 );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Los indices utilizados en las series de potencias no son agradables.
+El resultado, puede ser mejorado:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+log(1+x) = niceindices(powerseries( log(1+x), x, 0 ));
+
+sin(x)*cos(x) = niceindices(powerseries( sin(x)*cos(x), x, 0 ));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Aproximación al valor del número %pi 
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+atan(1);  
+atan(x)= niceindices( powerseries( atan(x), x, 0) );  
+subst(x=1,%);
+4*%;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+El hecho de tratarse de una serie alternada nos garantiza que el error cometido
+al sumar los n primeros términos es inferior a 1/(2(n+1)+1).
+
+Así para aproximar %pi con un error menor de 1/10⁶ necesitamos que 2n+3 supere a 10⁶
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(2*x+3=10^6,x),numer; /* Resolvemos, usando decimales */
+entier(%)+1;      /* Nos quedamos con la parte entera y le sumamos 1 */
+n : rhs(%[1]);    /* Recuperamos la parte de la derecha de la igualdad */;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+4*sum((-1)^i/(2*i+1),i,0,n),numer;
+%pi,numer;
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.04.0"$

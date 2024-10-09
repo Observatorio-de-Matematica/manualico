@@ -1,0 +1,265 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.04.0 ] */
+/* [wxMaxima: title   start ]
+Gráficos animados
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Mostramos aquí algunos gráficos animados. Algunos están tomados de la página 
+oficial de wxMaxima.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: section start ]
+Aproximaciones de los polinomios de Taylor con plot2d
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+En este gráfico animado vemos como los polinomios de Taylor se aproximan
+a la función seno. 
+Visualmente se aprecia (puede hacerse también analíticamente) que con un 
+polinomio de grado 9 se obtiene una buena aproximación del seno en [0,2*%pi]. 
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+     /* Definimos una función con dos variables: 
+        el grado del polinomio (n) y punto (x) 
+        en el que se calcula el desarrollo, de la función seno (en este caso). */ 
+
+tay(n, x) := block(
+   [ts : taylor(sin(z), z, 0, n)],
+   subst(z=x, ts)
+)$
+     
+
+    /* GENERACIÓN DE LA ANIMACIÓN CON:  with_slider   */
+
+    /* 1. Definimos la variable (n) 'grado=tiempo'  
+       y la lista de sus valores */
+with_slider(n, 2*makelist(i, i, 1, 5)-1,
+    
+    /* 2. Ahora construimos la gráfica para los diferentes (n) */
+  [sin(x), '(tay(n, x))],  [x, -%pi, %pi],  [y, -2, 2]
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+            LISTO PARA EXPERIMENTAR 
+
+Pinche sobre la figura con el ratón (aparecerá un marco)
+y a continuación utilice la rueda del ratón, o bien el potenciómetro 
+del menú superior, para obtener los diferentes gráficos.
+
+También puede pulsar un botón del menú, con un icono sugerente, 
+para reproducir la película completa; hasta que decida pararla
+pulsando otro botón, igualmente sugerente. 
+Una alternativa es pinchar con el ratón fuera del marco.
+
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: section start ]
+La gráfica del seno al moverse sobre la circunferencia
+el punto, realizado con draw2d
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+   RECORDEMOS    
+El seno mide el valor de la ordenada de un punto P de la circunfencia
+de radio 1 cuando el punto P recorre la circunferencia.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+   /* GENERACIÓN DE LA ANIMACIÓN CON:  with_slider_draw   */
+
+    /* 1. Definimos la variable (n) 'grado=tiempo'  
+       y la lista de sus valores */
+with_slider_draw(
+   a, makelist(i, i, 0, 20)*%pi/10,
+   
+    /* 2. Usamos los comandos de draw2d para dibujar */
+   parametric(-1+cos(t), sin(t), t, 0, 2*%pi),
+       line_width = 2,
+       color = blue,
+   explicit(sin(x), x, 0, a),
+       color = green,
+       points_joined = true,
+       point_size = 0,
+       line_width = 1,
+   points([[-1,0], [-1+cos(a), sin(a)]]),
+       color = black,
+   explicit(sin(a), x, -1+cos(a), a),
+       proportional_axes=xy, 
+       yrange = [-2, 2],
+       xrange = [-3, 2*%pi+1],
+       xaxis = true,
+       yaxis = true
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+La epicicloide: otro ejemplo más elaborado 
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+with_slider_draw(
+   ang, makelist(i,i,0,20)*%pi/10,
+    
+        /* dimensions = [400,400], */
+        proportional_axes=xy, 
+        xrange     = [-10,10],
+        yrange     = [-11,10],
+        nticks     = 80,
+        color      = red,
+  parametric(6*cos(u), 6*sin(u), 
+             u,0,2*%pi),
+  parametric((6+2)*sin(ang)+2*cos(u), (6+2)*cos(ang)+2*sin(u), 
+             u,0,2*%pi),
+        color = blue,
+        line_width = 2,
+  parametric((6+2)*sin(a)-2*sin(a*(1+6/2)),
+                 (6+2)*cos(a)-2*cos(a*(1+6/2)),
+                 a,0,ang),
+        color      = black,
+        point_size = 1,
+        points_joined = true,
+        line_width = 1,
+      points([
+              [0,0],
+              (6+2)*[sin(ang),cos(ang)],
+              [(6+2)*sin(ang)-2*sin(ang*(1+6/2)),
+               (6+2)*cos(ang)-2*cos(ang*(1+6/2))]
+             ]))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Sumas de Riemann: un ejemplo de animación en formato gif
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Es posible crear animaciones con salida en formato gif de forma sencilla 
+cuando se tiene instalado en el sistema el programa "imagemagic"; 
+un expléndido programa open source, en línea de comandos, capaz de convertir gráficos 
+entre diferentes formatos que contempla más de 100 variedades.
+
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+La ventaja de las salidas en formato gif es que, a diferencia de las realizadas
+un poco más arriba son independientes de wxMaxima
+y pueden ser utilizadas en otros contextos, por ejemplo, páginas webs.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+El código que viene a continuación únicamente podrá ejecutarlo si su sistema
+tiene instalado "imagemagic". Con él se genera una animación gif para sumas de
+Riemann. 
+Lo mejor es ejecutarlo en xmaxima o en la consola... yo he tenido problemas
+al ejecutarlo dentro de wxmaxima.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+Fijamos la función y el intervalo
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+a:-1$ b:1$
+f(x):=-(x-1)*(x+1)$
+wxdraw2d(explicit( f(x),x,a,b))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Dividimos el intervalo [a,b] en n subintervalos equiespaciados y en cada uno de ellos
+elegimos al azar un punto para dibujar los rectángulos de la suma de Riemann correspondiente.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+PuntosRectangulo(n):=block([r,p],
+    p:[],         /* Una lista vacía para comenzar,
+                     a la que vamos añadiendo nuevos rectángulos */
+    for k:1 thru n do 
+        (   r:random(1.0),
+            p:append(p,
+                [[a+(k-1)*(b-a)/n,0],
+                [a+(k-1)*(b-a)/n,f(a+(k-1)*(b-a)/n+r*(b-a)/n)],
+                [a+k*(b-a)/n,f(a+(k-1)*(b-a)/n+r*(b-a)/n)],
+                [a+k*(b-a)/n,0]])
+        ),
+        return(p) /* Salida */
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Jugamos la aleatoriedad y generamos una lista concreta de rectángulos que queda guardada
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+R[n]:=PuntosRectangulo(n)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Dibujamos la suma de Riemann con un número n de subintervalos (8, en este caso)
+sobre la curva
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(fill_color="green",
+         polygon(R[8]),
+         line_width=2,color=black,
+         explicit(f(x),x,a,b)
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Después de comprobar que los resultados corresponden a lo esperado,
+llega el momento de usar diferentes valores de n para producir
+un gráfico gif animado en el que se vayan mostrando gráficamente
+las sucesivas sumas de Riemann. El procedimiento consiste en generar 
+varios gráficos png, uno para cada valor de n, convertirlos a gif y
+ensamblarlos en un gif animado "multicapa".
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+     /* Generamos 20 gráficos png */
+for k:6 thru 25 do
+  draw2d(terminal   = png,
+         file_name  = concat("SumR",add_zeroes(k)),
+         dimensions = [600, 600],
+         fill_color="green",
+         polygon(R[k]),
+         line_width=2,
+         color=black,
+         explicit(f(x),x,a,b)         
+        )$       
+
+     /* Hacemos una salida al sistema operativo para usar imagemagic */
+system("convert -delay 200 SumR*.png SumRiemann.gif")$
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.04.0"$

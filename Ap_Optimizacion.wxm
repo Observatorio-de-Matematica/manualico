@@ -1,0 +1,252 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.04.0 ] */
+/* [wxMaxima: title   start ]
+Optimización de funciones con condiciones
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Se ejemplifican aquí recursos disponibles en Maxima para calcular
+extremos de funciones por métodos numéricos con ayuda del paquete
+"fmin_cobyla"
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load(fmin_cobyla)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+El mínimo de una función en R²
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Un ejemplo de utilización para encontrar el mínimo de una función
+sin condicionantes.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+kill(f)$
+f(x,y):= (x^2-y)^2 + (1+x)^2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+plot3d( (x^2-y)^2 + (1+x)^2, [x,-1.5,1],[y,0.5,1.5])$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+fmin_cobyla(f(x,y), [x, y], [1,1], iprint=1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Confirmación analítica
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: comment start ]
+Resolvemos ahora el problema con métodos del cálculo diferencial que
+proporcionan una solución exacta
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Dx : diff(f(x,y),x),nouns;
+Dy : diff(f(x,y),y),nouns;
+solve([Dx,Dy],[x,y]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+hessian(f(x,y),[x,y]);
+print("La hessiana en (-1,1): ", ev(%,x=-1,y=1))$
+print("Cuyo determinante es ", determinant(%))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+El punto (-1,1) es el único punto en el que la diferencial se anula.
+El estudio de la hessiana en dicho punto indica que es una forma cuadrática
+definida positiva, luego corresponde al único mínimo relativo/absoluto. 
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: section start ]
+El mínimo de una función en el círculo unidad
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+En este ejemplo se trata de encontrar el mínimo de la función
+f(x,y)=xy en el disco unidad de R².
+
+A tenor del dominio de f vamos a dibujar la función usando coordenadas polares
+para tener una visión geométrica del problema. Utilice el ratón para girarla.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+plot3d(r^2*cos(t)*sin(t),[r, 0, 1],[t, 0, 2*%pi], 
+[transform_xy, polar_to_xy],[legend,false],
+[gnuplot_preamble,"set contour base"]
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+fmin_cobyla(x*y, [x, y], [1,1], constraints = [x^2+y^2<=1], iprint=1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+El resultado encontrado numéricamente muestra que, aproximadamente,
+el mínimo se encuentra en el punto (0.707, -0.707) y que su valor es -5.
+Obviamente, teniendo en cuenta la simetría de la función, otro punto es 
+(-0.707, 0.707) con el mismo valor para f.
+En los puntos (0.707, 0.707) y (-0.707, -0.707) se alcanza el máximo f
+(que corresponde al mínimo de la función -f)
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Estudio analítico
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: comment start ]
+El problema podría ser planteado y resuelto con valores exactos:
+- f es continua y la bola es compacta luego alcanza en ella sus extremos
+  absolutos, que de estar en el interior serían relativos en un entorno 
+  abierto lo que significa que necesariamente serían puntos en los que
+  la diferencial se anula.
+- si no estuvieran en el interior estarían en el borde y para capturarlos
+  podríamos hacer uso de la técnica de los multiplicadores de Lagrange,
+  pero, por la geometría del recinto, lo más sencillo aquí es usar 
+  coordenadas polares
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+kill(f)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f(x,y):= x*y$
+Dx : diff(f(x,y),x);
+Dy : diff(f(x,y),y);
+solve([Dx,Dy]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+El único punto crítico es (0,0), que es un punto de silla.
+Esto es inmediato, pues f toma calores positivos y negativos en cualquier
+entorno de (0,0).
+
+En consecuencia el máximo y mínimo han de estar en el borde del círculo unidad.
+En coordenadas cilíndricas la función se expresa como f(r,t)=r^2 sin(2*t)/2,
+que para el borde corresponde a sin(2*t)/2
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+g(t):= sin(2*t)/2;
+diff(g(t),t);
+solve(%,t);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Efectivamente, como advierte Maxima, hay más soluciones cuando t
+varía entre 0 y 2*%pi. Dos que corresponden a sendos mínimos absolutos
+de valor -1/2 (que ya antes hemos señalado) 
+y otros dos a sendos máximos absolutos de valor 1/2
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sin(%pi/4);
+%,numer;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Oportunidades de arbitraje en un mercado financiero
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ratprint:false$
+print("Vector de precios en t=0: ")$
+Mt0: transpose(matrix([1, 2, 3, 1]));
+print("Matriz de precios en t=1: ")$
+Mt1: matrix([2,0.2,0.5,1],[0.1,2,0.1,1],[5,0.1,1.5,4],[3.5,0.6,2,1.5]);
+print("Rango de la matriz: ", rank(%))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cartera: matrix([H1,H2,H3,H4]);  /* Cartera genérica de activos */
+
+CV0 : cartera.Mt0;            /* Valor de la cartera 2 en t=0 */
+
+CV1 : cartera.Mt1;   /* Los cuatro valores de la cartera en t=1 según el escenario */;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Una oportunidad de arbitraje en un mercado financiero significa la posibilidad de adquirir
+en t=0 una cartera cuyo valor sea menor o igual que 0 y tal que para t=1 en ningún escenario
+tenga valor negativo y en alguno de ellos su valor sea estrictamente positivo.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+La cartera se puede escalar manteniendo las proporciones y por tanto también su valor en t=1.
+Ello nos permite plantear a cobyla la minimización de la función CV0 al variar la cartera
+con las condiciones de CV1 >=0 en los cuatro escenarios
+y para garantizar que en alguno de los escenarios sea >0 ponemos la condición de la norma de CV1 sea 1. 
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+fmin_cobyla(CV0,[H1,H2,H3,H4],
+                 [1,1,1,1],
+            constraints=[CV1[1,1]>=0,
+                         CV1[1,2]>=0,
+                         CV1[1,3]>=0,
+                         CV1[1,4]>=0,
+                         CV1[1,1]^2+ CV1[1,2]^2+ CV1[1,3]^2+ CV1[1,4]^2=1 
+                        ],
+            iprint=1 );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Comprobamos los valores en t=0 y en t=1 de dicha cartera
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("El valor en t=0 de esa cartera es:")$
+[-1.95314965867027,-0.06964228928808106,0.1861348459154161,0.8521683761977913].Mt0;
+print("El valor en t=1, para los diferentes escenarios, de esa cartera es:")$
+[-1.95314965867027,-0.06964228928808106,0.1861348459154161,0.8521683761977913].Mt1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+En ningún escenario su valor es negativo,aunque en tres de ellos es cero, o casi cero, 
+pero en el otro es casi 1. En definitiva: un mercado con una oportunidad de arbitraje clara.
+   [wxMaxima: comment end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.04.0"$

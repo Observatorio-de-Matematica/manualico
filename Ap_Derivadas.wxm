@@ -1,0 +1,109 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.04.0 ] */
+/* [wxMaxima: title   start ]
+Límites, derivadas y diferenciales
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: section start ]
+Límites en una variable
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+limit( 1/(1+x^2), x, inf);
+limit( (1+sin(x) - %e^x)/(atan (x)*atan (x)), x, 0); 
+limit( %e^(1/cos(x)), x, %pi/2,plus);
+limit( %e^(1/cos(x)), x, %pi/2,minus);
+
+tlimit( 1/(1+x^2), x, inf); /* le forzamos a usar desarrollos de Taylor */
+tlimit( (1+sin(x) - %e^x)/(atan (x)*atan (x)), x, 0);
+tlimit( %e^(1/cos(x)), x, %pi/2,plus);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Derivadas y diferenciales
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Derivadas y derivadas parciales
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("Derivadas respecto de una variable")$
+diff( sin(x),  x);
+diff( cos(x),x,3);      /* derivada de orden 3 respecto de x */
+diff( y*cos(x),x,2);    /* derivada de orden 2 respecto de x */ 
+
+print("Derivadas parciales")$
+'diff( y^3*cos(x)^2,x,1,y,2) = diff( y^3*cos(x)^2,x,1,y,2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+También es posible realizar derivación simbólica
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+kill(f)$    
+diff( f(x,y),x,1,y,2 );   
+diff( exp(f(x)), x,2);
+
+print("Maxima representa a dx como:   del(x). Lo mismo las otras")$
+print("Derivación de un símbolo indicando la dependencia de variables")$
+depends(F,[x,y])$    
+'diff( F ) = diff( F );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Una función vectorial de R² en R³
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+g(x,y):=[x^3,x^2+y^2,exp(x+y)];
+diff(g(x,y));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("Algunas derivadas simbólicas y su evaluación")$
+'diff(x^2*cos(x^3),x)= ''diff(x^2*cos(x^3),x);
+'diff(x^2*cos(x^3),x,3)=''diff(x^2*cos(x^3),x,3);
+'diff(exp(x^2+y),x,2,y,1)= diff(exp(x^2+y),x,2,y,1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Jacobiano y hessiano
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("Jacobiano para f de R² en R, concreta y una abstracta")$
+f(x,y):= -(x^2+y^2); 
+jacobian([f(x,y)],[x,y]); 
+ev(%,[x=1/2,y=1/2]);
+kill(f)$ jacobian([f(x,y)],[x,y]); 
+
+
+print("Jacobiano para f de R² en R²: concreta y abstracta")$
+jacobian ([sin (u - v), sin (u * v)], [u, v]);
+jacobian ([F(x,y), G(x,y)],[x,y]);
+
+
+print("Hessiano para una función concreta y una abstracta")$
+hessian  (x * sin (y), [x, y]);
+depends (F, [x,y]); 
+hessian (F, [x, y]);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.04.0"$
